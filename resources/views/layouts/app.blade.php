@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,10 +18,10 @@
         
         <style>
             [x-cloak] { display: none !important; }
-            body { background-color: #f1f5f9; } /* Slate 100 - Lembut di mata */
+            body { background-color: #0f172a; } /* Deep Slate 950 */
         </style>
     </head>
-    <body class="font-sans antialiased text-slate-900 overflow-x-hidden">
+    <body class="font-sans antialiased text-slate-200 overflow-x-hidden bg-[#0f172a]">
         <div class="min-h-screen">
             @include('layouts.header')
             @include('layouts.sidebar')
