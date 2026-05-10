@@ -1,172 +1,136 @@
 <x-app-layout>
-    {{-- Header --}}
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
+    {{-- Header Laporan --}}
+    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Laporan Keuangan</h1>
-            <p class="text-sm text-gray-500 mt-1">Ringkasan keuangan periode {{ \Carbon\Carbon::createFromDate(null, (int)$bulan, 1)->translatedFormat('F') }} {{ $tahun }}</p>
+            <div class="flex items-center gap-2 text-blue-400 font-bold text-xs uppercase tracking-widest mb-1">
+                <x-lucide-file-bar-chart class="w-4 h-4" />
+                Laporan Keuangan
+            </div>
+            <h1 class="text-3xl font-black text-white tracking-tight">Analisis Bulanan</h1>
+            <p class="text-sm text-slate-400 mt-1">Periode: <span class="text-blue-400 font-bold">{{ \Carbon\Carbon::createFromDate(null, (int)$bulan, 1)->translatedFormat('F') }} {{ $tahun }}</span></p>
         </div>
-        <div class="flex gap-2">
+        
+        <div class="flex flex-wrap items-center gap-3 bg-slate-900 p-2 rounded-2xl border border-slate-800">
             <form method="GET" action="{{ route('reports.index') }}" class="flex gap-2 items-center">
-                <select name="bulan" class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-corporate focus:border-corporate">
+                <select name="bulan" class="text-xs border-0 bg-slate-800 rounded-xl px-4 py-2 text-white focus:ring-2 focus:ring-blue-500 font-bold">
                     @for($m = 1; $m <= 12; $m++)
                         <option value="{{ $m }}" {{ $bulan == $m ? 'selected' : '' }}>{{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}</option>
                     @endfor
                 </select>
-                <select name="tahun" class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-corporate focus:border-corporate">
+                <select name="tahun" class="text-xs border-0 bg-slate-800 rounded-xl px-4 py-2 text-white focus:ring-2 focus:ring-blue-500 font-bold">
                     @for($y = now()->year; $y >= now()->year - 3; $y--)
                         <option value="{{ $y }}" {{ $tahun == $y ? 'selected' : '' }}>{{ $y }}</option>
                     @endfor
                 </select>
-                <button type="submit" class="px-3 py-2 bg-corporate text-white text-sm rounded-lg hover:bg-blue-800 transition">Tampilkan</button>
+                <button type="submit" class="p-2 bg-blue-600 text-white rounded-xl hover:bg-blue-500 transition">
+                    <x-lucide-search class="w-4 h-4" />
+                </button>
             </form>
+            <div class="w-px h-6 bg-slate-800 mx-1"></div>
             <a href="{{ route('reports.pdf', ['bulan' => $bulan, 'tahun' => $tahun]) }}"
-               class="inline-flex items-center px-4 py-2 bg-emerald-600 text-white text-sm font-semibold rounded-lg hover:bg-emerald-700 transition shadow">
-                <x-lucide-download class="w-4 h-4 me-1.5" /> Unduh PDF
+               class="inline-flex items-center px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-emerald-500 transition">
+                <x-lucide-download class="w-4 h-4 me-2" /> Export PDF
             </a>
         </div>
     </div>
 
-    {{-- Summary Cards --}}
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div class="p-5 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
-            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Total Pemasukan</p>
-            <p class="text-2xl font-bold text-emerald-600">Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</p>
-            <p class="text-xs text-gray-500 mt-1">{{ $pemasukan->count() }} transaksi</p>
+    {{-- Ringkasan Angka --}}
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+        <div class="p-7 bg-slate-900 border border-slate-800 rounded-3xl shadow-xl">
+            <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Inflow</p>
+            <p class="text-2xl font-black text-emerald-400">Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</p>
         </div>
-        <div class="p-5 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
-            <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Total Pengeluaran</p>
-            <p class="text-2xl font-bold text-rose-600">Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</p>
-            <p class="text-xs text-gray-500 mt-1">{{ $pengeluaran->count() }} transaksi</p>
+        
+        <div class="p-7 bg-slate-900 border border-slate-800 rounded-3xl shadow-xl">
+            <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Outflow</p>
+            <p class="text-2xl font-black text-rose-400">Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</p>
         </div>
-        <div class="p-5 {{ $saldo >= 0 ? 'bg-corporate' : 'bg-rose-600' }} rounded-xl shadow text-white">
-            <p class="text-xs text-blue-100 uppercase tracking-wider mb-1">Selisih / Saldo</p>
-            <p class="text-2xl font-bold">Rp {{ number_format(abs($saldo), 0, ',', '.') }}</p>
-            <p class="text-xs text-blue-200 mt-1">{{ $saldo >= 0 ? '✅ Surplus' : '⚠️ Defisit' }}</p>
+
+        <div class="p-7 bg-blue-600 rounded-3xl shadow-xl shadow-blue-900/20">
+            <p class="text-[10px] font-black text-blue-200 uppercase tracking-widest mb-2">Net Balance</p>
+            <p class="text-2xl font-black text-white">Rp {{ number_format($saldo, 0, ',', '.') }}</p>
         </div>
     </div>
 
-    {{-- By Category Charts --}}
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        {{-- Income by Category --}}
-        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-5 dark:bg-gray-800 dark:border-gray-700">
-            <h3 class="font-bold text-gray-900 dark:text-white mb-4 text-sm">Pemasukan per Kategori</h3>
-            @forelse($pemasukanByCategory as $item)
-                @php $persen = $totalPemasukan > 0 ? round(($item->total / $totalPemasukan) * 100, 1) : 0; @endphp
-                <div class="mb-3">
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="text-gray-700 dark:text-gray-300">{{ $item->category?->nama ?? 'Lainnya' }}</span>
-                        <span class="text-gray-500 text-xs">{{ $persen }}% &middot; Rp {{ number_format($item->total, 0, ',', '.') }}</span>
+    {{-- Detail Table - SOFT WHITE THEME --}}
+    <div class="space-y-8">
+        <div class="bg-slate-50 border border-slate-200 rounded-3xl shadow-2xl overflow-hidden" x-data="{ open: true }">
+            <div class="px-8 py-6 flex items-center justify-between bg-white border-b border-slate-200">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-emerald-100 text-emerald-600 rounded-xl">
+                        <x-lucide-arrow-down-left class="w-5 h-5" />
                     </div>
-                    <div class="w-full bg-gray-100 rounded-full h-2">
-                        <div class="h-2 rounded-full bg-emerald-500" style="width: {{ $persen }}%"></div>
-                    </div>
+                    <h3 class="font-black text-slate-900 tracking-tight">Rincian Pemasukan</h3>
                 </div>
-            @empty
-                <p class="text-sm text-gray-400 py-4 text-center">Tidak ada data pemasukan.</p>
-            @endforelse
-        </div>
-
-        {{-- Expense by Category --}}
-        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-5 dark:bg-gray-800 dark:border-gray-700">
-            <h3 class="font-bold text-gray-900 dark:text-white mb-4 text-sm">Pengeluaran per Kategori</h3>
-            @forelse($pengeluaranByCategory as $item)
-                @php $persen = $totalPengeluaran > 0 ? round(($item->total / $totalPengeluaran) * 100, 1) : 0; @endphp
-                <div class="mb-3">
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="text-gray-700 dark:text-gray-300">{{ $item->category?->nama ?? 'Lainnya' }}</span>
-                        <span class="text-gray-500 text-xs">{{ $persen }}% &middot; Rp {{ number_format($item->total, 0, ',', '.') }}</span>
-                    </div>
-                    <div class="w-full bg-gray-100 rounded-full h-2">
-                        <div class="h-2 rounded-full bg-rose-500" style="width: {{ $persen }}%"></div>
-                    </div>
+                <button @click="open = !open" class="text-slate-400 hover:text-slate-600">
+                    <x-lucide-chevron-down class="w-5 h-5 transform transition-transform duration-300" x-bind:class="open ? 'rotate-180' : ''" />
+                </button>
+            </div>
+            <div x-show="open" x-collapse>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left bg-white">
+                        <thead class="text-[10px] font-black uppercase tracking-widest text-slate-400 border-b border-slate-100">
+                            <tr>
+                                <th class="px-8 py-4">Waktu</th>
+                                <th class="px-8 py-4">Deskripsi</th>
+                                <th class="px-8 py-4">Kategori</th>
+                                <th class="px-8 py-4 text-right">Nominal</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            @forelse($pemasukan as $trx)
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-8 py-5 text-xs font-bold text-slate-400">{{ $trx->tanggal->format('d/m/Y') }}</td>
+                                <td class="px-8 py-5 font-bold text-slate-800">{{ $trx->deskripsi }}</td>
+                                <td class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-tighter">{{ $trx->category?->nama ?? '—' }}</td>
+                                <td class="px-8 py-5 text-right font-black text-emerald-600">+ Rp {{ number_format($trx->jumlah, 0, ',', '.') }}</td>
+                            </tr>
+                            @empty
+                            <tr><td colspan="4" class="px-8 py-12 text-center text-slate-400 font-bold uppercase text-[10px]">Data Kosong</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
-            @empty
-                <p class="text-sm text-gray-400 py-4 text-center">Tidak ada data pengeluaran.</p>
-            @endforelse
-        </div>
-    </div>
-
-    {{-- Full Transaction Tables --}}
-    <div class="space-y-6">
-        {{-- Pemasukan --}}
-        <div class="bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
-            <div class="px-5 py-4 border-b border-gray-100 bg-emerald-50 dark:bg-emerald-900/20 dark:border-gray-700">
-                <h3 class="font-bold text-emerald-700 flex items-center gap-2">
-                    <x-lucide-trending-up class="w-5 h-5" /> Rincian Pemasukan
-                </h3>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500">
-                    <thead class="text-xs uppercase bg-gray-50 text-gray-600">
-                        <tr>
-                            <th class="px-5 py-3">Tanggal</th>
-                            <th class="px-5 py-3">Deskripsi</th>
-                            <th class="px-5 py-3">Kategori</th>
-                            <th class="px-5 py-3 text-right">Nominal</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-50">
-                        @forelse($pemasukan as $trx)
-                        <tr>
-                            <td class="px-5 py-3 whitespace-nowrap text-xs">{{ $trx->tanggal->translatedFormat('d M Y') }}</td>
-                            <td class="px-5 py-3 text-gray-900 font-medium">{{ $trx->deskripsi }}</td>
-                            <td class="px-5 py-3 text-xs text-gray-500">{{ $trx->category?->nama ?? '—' }}</td>
-                            <td class="px-5 py-3 text-right font-bold text-emerald-600">+ Rp {{ number_format($trx->jumlah, 0, ',', '.') }}</td>
-                        </tr>
-                        @empty
-                        <tr><td colspan="4" class="px-5 py-8 text-center text-gray-400">Tidak ada data pemasukan.</td></tr>
-                        @endforelse
-                    </tbody>
-                    @if($pemasukan->count() > 0)
-                    <tfoot class="bg-emerald-50">
-                        <tr>
-                            <td colspan="3" class="px-5 py-3 font-bold text-gray-700">Total Pemasukan</td>
-                            <td class="px-5 py-3 text-right font-bold text-emerald-700">Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</td>
-                        </tr>
-                    </tfoot>
-                    @endif
-                </table>
             </div>
         </div>
 
-        {{-- Pengeluaran --}}
-        <div class="bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
-            <div class="px-5 py-4 border-b border-gray-100 bg-rose-50 dark:bg-rose-900/20 dark:border-gray-700">
-                <h3 class="font-bold text-rose-700 flex items-center gap-2">
-                    <x-lucide-trending-down class="w-5 h-5" /> Rincian Pengeluaran
-                </h3>
+        <div class="bg-slate-50 border border-slate-200 rounded-3xl shadow-2xl overflow-hidden" x-data="{ open: true }">
+            <div class="px-8 py-6 flex items-center justify-between bg-white border-b border-slate-200">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-rose-100 text-rose-600 rounded-xl">
+                        <x-lucide-arrow-up-right class="w-5 h-5" />
+                    </div>
+                    <h3 class="font-black text-slate-900 tracking-tight">Rincian Pengeluaran</h3>
+                </div>
+                <button @click="open = !open" class="text-slate-400 hover:text-slate-600">
+                    <x-lucide-chevron-down class="w-5 h-5 transform transition-transform duration-300" x-bind:class="open ? 'rotate-180' : ''" />
+                </button>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-500">
-                    <thead class="text-xs uppercase bg-gray-50 text-gray-600">
-                        <tr>
-                            <th class="px-5 py-3">Tanggal</th>
-                            <th class="px-5 py-3">Deskripsi</th>
-                            <th class="px-5 py-3">Kategori</th>
-                            <th class="px-5 py-3 text-right">Nominal</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-50">
-                        @forelse($pengeluaran as $trx)
-                        <tr>
-                            <td class="px-5 py-3 whitespace-nowrap text-xs">{{ $trx->tanggal->translatedFormat('d M Y') }}</td>
-                            <td class="px-5 py-3 text-gray-900 font-medium">{{ $trx->deskripsi }}</td>
-                            <td class="px-5 py-3 text-xs text-gray-500">{{ $trx->category?->nama ?? '—' }}</td>
-                            <td class="px-5 py-3 text-right font-bold text-rose-600">- Rp {{ number_format($trx->jumlah, 0, ',', '.') }}</td>
-                        </tr>
-                        @empty
-                        <tr><td colspan="4" class="px-5 py-8 text-center text-gray-400">Tidak ada data pengeluaran.</td></tr>
-                        @endforelse
-                    </tbody>
-                    @if($pengeluaran->count() > 0)
-                    <tfoot class="bg-rose-50">
-                        <tr>
-                            <td colspan="3" class="px-5 py-3 font-bold text-gray-700">Total Pengeluaran</td>
-                            <td class="px-5 py-3 text-right font-bold text-rose-700">Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</td>
-                        </tr>
-                    </tfoot>
-                    @endif
-                </table>
+            <div x-show="open" x-collapse>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left bg-white">
+                        <thead class="text-[10px] font-black uppercase tracking-widest text-slate-400 border-b border-slate-100">
+                            <tr>
+                                <th class="px-8 py-4">Waktu</th>
+                                <th class="px-8 py-4">Deskripsi</th>
+                                <th class="px-8 py-4">Kategori</th>
+                                <th class="px-8 py-4 text-right">Nominal</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            @forelse($pengeluaran as $trx)
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-8 py-5 text-xs font-bold text-slate-400">{{ $trx->tanggal->format('d/m/Y') }}</td>
+                                <td class="px-8 py-5 font-bold text-slate-800">{{ $trx->deskripsi }}</td>
+                                <td class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-tighter">{{ $trx->category?->nama ?? '—' }}</td>
+                                <td class="px-8 py-5 text-right font-black text-rose-600">- Rp {{ number_format($trx->jumlah, 0, ',', '.') }}</td>
+                            </tr>
+                            @empty
+                            <tr><td colspan="4" class="px-8 py-12 text-center text-slate-400 font-bold uppercase text-[10px]">Data Kosong</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

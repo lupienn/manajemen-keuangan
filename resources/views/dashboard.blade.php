@@ -1,165 +1,144 @@
 <x-app-layout>
     {{-- Page Header --}}
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center justify-between mb-8">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Keuangan</h1>
-            <p class="text-sm text-gray-500 mt-1">Selamat datang, <span class="font-semibold text-corporate">{{ Auth::user()->name }}</span>. Berikut ringkasan keuangan {{ now()->translatedFormat('F Y') }}.</p>
+            <h1 class="text-3xl font-black text-white tracking-tight">Dashboard Keuangan</h1>
+            <p class="text-sm text-slate-400 mt-1 font-medium">Selamat datang, <span class="text-blue-400 font-bold">{{ Auth::user()->name }}</span>. Berikut ringkasan bulan ini.</p>
         </div>
         <a href="{{ route('transactions.create') }}"
-           class="inline-flex items-center px-4 py-2 bg-corporate text-white font-semibold rounded-lg hover:bg-blue-800 transition shadow">
+           class="inline-flex items-center px-6 py-3 bg-blue-600 text-white text-sm font-black uppercase tracking-widest rounded-xl hover:bg-blue-500 transition shadow-lg shadow-blue-900/20">
             <x-lucide-plus class="w-4 h-4 me-2" />
-            Tambah Transaksi
+            Tambah Data
         </a>
     </div>
 
     {{-- Stats Cards --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {{-- Saldo --}}
-        <div class="p-6 bg-corporate rounded-xl shadow text-white">
-            <div class="flex items-center justify-between mb-3">
-                <div class="p-2 bg-white/20 rounded-lg">
+        <div class="p-7 bg-slate-900 border border-slate-800 rounded-3xl shadow-xl transition-all duration-300 hover:border-blue-500/50">
+            <div class="flex items-center justify-between mb-4">
+                <div class="p-3 bg-blue-500/10 text-blue-400 rounded-2xl">
                     <x-lucide-wallet class="w-6 h-6" />
                 </div>
-                <span class="text-xs font-semibold uppercase tracking-wider text-blue-100">Saldo Bulan Ini</span>
+                <span class="text-[10px] font-black uppercase tracking-widest text-slate-500">Total Saldo</span>
             </div>
-            <h3 class="text-2xl font-bold">Rp {{ number_format($saldo, 0, ',', '.') }}</h3>
-            <p class="mt-1 text-sm text-blue-200">
-                {{ $saldo >= 0 ? 'Surplus' : 'Defisit' }} periode ini
-            </p>
+            <h3 class="text-2xl font-black text-white tracking-tight">Rp {{ number_format($saldo, 0, ',', '.') }}</h3>
+            <p class="text-[10px] font-bold text-blue-400 uppercase mt-1 tracking-widest">{{ $saldo >= 0 ? 'Surplus Aktif' : 'Defisit Anggaran' }}</p>
         </div>
 
         {{-- Pemasukan --}}
-        <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
-            <div class="flex items-center justify-between mb-3">
-                <div class="p-2 bg-emerald-50 rounded-lg">
-                    <x-lucide-trending-up class="w-6 h-6 text-emerald-500" />
+        <div class="p-7 bg-slate-900 border border-slate-800 rounded-3xl shadow-xl">
+            <div class="flex items-center justify-between mb-4">
+                <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-2xl">
+                    <x-lucide-trending-up class="w-6 h-6" />
                 </div>
-                <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">Pemasukan</span>
+                <span class="text-[10px] font-black uppercase tracking-widest text-slate-500">Inflow</span>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</h3>
-            <p class="mt-1 text-sm text-gray-500">{{ $jumlahPemasukan }} transaksi bulan ini</p>
+            <h3 class="text-2xl font-black text-white tracking-tight">Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</h3>
+            <p class="text-[10px] font-bold text-slate-500 uppercase mt-1 tracking-widest">{{ $jumlahPemasukan }} Transaksi</p>
         </div>
 
         {{-- Pengeluaran --}}
-        <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
-            <div class="flex items-center justify-between mb-3">
-                <div class="p-2 bg-rose-50 rounded-lg">
-                    <x-lucide-trending-down class="w-6 h-6 text-rose-500" />
+        <div class="p-7 bg-slate-900 border border-slate-800 rounded-3xl shadow-xl">
+            <div class="flex items-center justify-between mb-4">
+                <div class="p-3 bg-rose-500/10 text-rose-400 rounded-2xl">
+                    <x-lucide-trending-down class="w-6 h-6" />
                 </div>
-                <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">Pengeluaran</span>
+                <span class="text-[10px] font-black uppercase tracking-widest text-slate-500">Outflow</span>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</h3>
-            <p class="mt-1 text-sm text-gray-500">{{ $jumlahPengeluaran }} transaksi bulan ini</p>
+            <h3 class="text-2xl font-black text-white tracking-tight">Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</h3>
+            <p class="text-[10px] font-bold text-slate-500 uppercase mt-1 tracking-widest">{{ $jumlahPengeluaran }} Transaksi</p>
         </div>
 
         {{-- Anggaran --}}
-        <div class="p-6 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
-            <div class="flex items-center justify-between mb-3">
-                <div class="p-2 bg-blue-50 rounded-lg">
-                    <x-lucide-pie-chart class="w-6 h-6 text-primary-700" />
+        <div class="p-7 bg-slate-900 border border-slate-800 rounded-3xl shadow-xl">
+            <div class="flex items-center justify-between mb-4">
+                <div class="p-3 bg-slate-800 text-slate-400 rounded-2xl">
+                    <x-lucide-pie-chart class="w-6 h-6" />
                 </div>
-                <span class="text-xs font-semibold uppercase tracking-wider text-gray-400">Anggaran Aktif</span>
+                <span class="text-[10px] font-black uppercase tracking-widest text-slate-500">Budget</span>
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $anggaran->count() }}</h3>
-            <p class="mt-1 text-sm text-gray-500">item anggaran bulan ini</p>
+            <h3 class="text-2xl font-black text-white tracking-tight">{{ $anggaran->count() }}</h3>
+            <p class="text-[10px] font-bold text-slate-500 uppercase mt-1 tracking-widest">Pos Anggaran Aktif</p>
         </div>
     </div>
 
-    {{-- Chart & Table --}}
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        {{-- Chart --}}
-        <div class="lg:col-span-2 bg-white border border-gray-200 rounded-xl shadow-sm p-6 dark:bg-gray-800 dark:border-gray-700">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-base font-bold text-gray-900 dark:text-white">Tren Keuangan (6 Bulan Terakhir)</h3>
-                <div class="flex items-center gap-4 text-xs text-gray-500">
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> Pemasukan</span>
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span> Pengeluaran</span>
-                </div>
+    {{-- Analysis & Budget --}}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-3xl p-8">
+            <h3 class="text-lg font-black text-white tracking-tight mb-8">Analisis Tren</h3>
+            <div class="h-[320px]">
+                <canvas id="financeChart"></canvas>
             </div>
-            <canvas id="financeChart" height="120"></canvas>
         </div>
 
-        {{-- Budget Progress --}}
-        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 dark:bg-gray-800 dark:border-gray-700">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-base font-bold text-gray-900 dark:text-white">Status Anggaran</h3>
-                <a href="{{ route('budgets.index') }}" class="text-xs text-corporate hover:underline">Kelola</a>
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+            <h3 class="text-lg font-black text-white tracking-tight mb-8">Status Anggaran</h3>
+            <div class="space-y-6">
+                @forelse($anggaran as $budget)
+                    @php $persen = $budget->persentase; @endphp
+                    <div>
+                        <div class="flex justify-between items-end mb-2">
+                            <span class="text-xs font-black text-slate-300 uppercase tracking-tight">{{ $budget->nama }}</span>
+                            <span class="text-[10px] font-black {{ $persen >= 90 ? 'text-rose-400' : ($persen >= 70 ? 'text-amber-400' : 'text-emerald-400') }}">{{ $persen }}%</span>
+                        </div>
+                        <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                            <div class="h-2 rounded-full transition-all duration-1000 {{ $persen >= 90 ? 'bg-rose-500' : ($persen >= 70 ? 'bg-amber-500' : 'bg-emerald-500') }}"
+                                 style="width: 0%;" x-init="setTimeout(() => $el.style.width = '{{ $persen }}%', 500)"></div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="text-center py-12">
+                        <x-lucide-pie-chart class="w-12 h-12 mx-auto mb-3 text-slate-800" />
+                        <p class="text-[10px] font-black text-slate-600 uppercase tracking-widest">Belum Ada Anggaran</p>
+                    </div>
+                @endforelse
             </div>
-            @forelse($anggaran as $budget)
-                @php $persen = $budget->persentase; @endphp
-                <div class="mb-4">
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="text-gray-700 dark:text-gray-300 font-medium">{{ $budget->nama }}</span>
-                        <span class="text-gray-500 text-xs">{{ $persen }}%</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
-                        <div class="h-2 rounded-full transition-all duration-500 {{ $persen >= 90 ? 'bg-rose-500' : ($persen >= 70 ? 'bg-amber-400' : 'bg-emerald-500') }}"
-                             style="width: {{ $persen }}%"></div>
-                    </div>
-                    <div class="flex justify-between text-xs text-gray-400 mt-0.5">
-                        <span>Rp {{ number_format($budget->realisasi, 0, ',', '.') }}</span>
-                        <span>/ Rp {{ number_format($budget->jumlah_anggaran, 0, ',', '.') }}</span>
-                    </div>
-                </div>
-            @empty
-                <div class="text-center text-gray-400 text-sm py-8">
-                    <x-lucide-pie-chart class="w-10 h-10 mx-auto mb-2 opacity-30" />
-                    Belum ada anggaran bulan ini.
-                    <a href="{{ route('budgets.index') }}" class="block mt-1 text-corporate hover:underline text-xs">Tambah Anggaran</a>
-                </div>
-            @endforelse
         </div>
     </div>
 
-    {{-- Recent Transactions --}}
-    <div class="bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
-        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-base font-bold text-gray-900 dark:text-white">Transaksi Terakhir</h3>
-            <a href="{{ route('transactions.index') }}" class="text-sm font-medium text-corporate hover:underline flex items-center">
-                Lihat Semua <x-lucide-arrow-right class="w-4 h-4 ms-1" />
-            </a>
+    {{-- Activity Table - SOFT WHITE THEME --}}
+    <div class="bg-slate-50 border border-slate-200 rounded-3xl shadow-2xl overflow-hidden">
+        <div class="p-8 border-b border-slate-200 flex items-center justify-between bg-white/50">
+            <div>
+                <h3 class="text-lg font-black text-slate-900 tracking-tight">Riwayat Aktivitas</h3>
+                <p class="text-xs text-slate-500 font-medium">Transaksi terbaru di dalam sistem</p>
+            </div>
+            <a href="{{ route('transactions.index') }}" class="text-xs font-black text-blue-600 uppercase tracking-widest hover:text-blue-800 transition px-4 py-2 bg-blue-50 rounded-xl">Lihat Semua</a>
         </div>
         <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs uppercase bg-gray-50 text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+            <table class="w-full text-sm text-left">
+                <thead class="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-100/50 border-b border-slate-200">
                     <tr>
-                        <th class="px-6 py-3">Tanggal</th>
-                        <th class="px-6 py-3">Deskripsi</th>
-                        <th class="px-6 py-3">Kategori</th>
-                        <th class="px-6 py-3">Jenis</th>
-                        <th class="px-6 py-3 text-right">Nominal</th>
+                        <th class="px-8 py-5">Identitas Waktu</th>
+                        <th class="px-8 py-5">Deskripsi Transaksi</th>
+                        <th class="px-8 py-5">Kategori</th>
+                        <th class="px-8 py-5 text-right">Nominal</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+                <tbody class="divide-y divide-slate-100 bg-white">
                     @forelse($transaksiTerakhir as $trx)
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                        <td class="px-6 py-4 whitespace-nowrap text-gray-700 dark:text-gray-300">
-                            {{ $trx->tanggal->translatedFormat('d M Y') }}
+                    <tr class="hover:bg-blue-50 transition-colors">
+                        <td class="px-8 py-5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-500">
+                                    {{ $trx->tanggal->format('d') }}
+                                </div>
+                                <span class="text-xs font-bold text-slate-500">{{ $trx->tanggal->translatedFormat('M Y') }}</span>
+                            </div>
                         </td>
-                        <td class="px-6 py-4 text-gray-900 dark:text-white font-medium">{{ $trx->deskripsi }}</td>
-                        <td class="px-6 py-4">
-                            <span class="text-xs px-2 py-1 rounded-full font-medium text-gray-600 bg-gray-100">
-                                {{ $trx->category?->nama ?? '—' }}
-                            </span>
+                        <td class="px-8 py-5">
+                            <span class="text-sm font-bold text-slate-800">{{ $trx->deskripsi }}</span>
                         </td>
-                        <td class="px-6 py-4">
-                            @if($trx->jenis === 'pemasukan')
-                                <span class="px-2 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">Pemasukan</span>
-                            @else
-                                <span class="px-2 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-700">Pengeluaran</span>
-                            @endif
+                        <td class="px-8 py-5">
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 border border-slate-100 px-3 py-1 rounded-lg">{{ $trx->category?->nama ?? 'Umum' }}</span>
                         </td>
-                        <td class="px-6 py-4 text-right font-bold {{ $trx->jenis === 'pemasukan' ? 'text-emerald-600' : 'text-rose-600' }}">
+                        <td class="px-8 py-5 text-right font-black {{ $trx->jenis === 'pemasukan' ? 'text-emerald-600' : 'text-rose-600' }}">
                             {{ $trx->jenis === 'pemasukan' ? '+' : '-' }} Rp {{ number_format($trx->jumlah, 0, ',', '.') }}
                         </td>
                     </tr>
                     @empty
-                    <tr>
-                        <td colspan="5" class="px-6 py-10 text-center text-gray-400">
-                            <x-lucide-inbox class="w-10 h-10 mx-auto mb-2 opacity-30" />
-                            Belum ada transaksi.
-                        </td>
-                    </tr>
+                    <tr><td colspan="4" class="px-8 py-16 text-center text-slate-400 font-bold uppercase text-[10px] tracking-widest">Data Kosong</td></tr>
                     @endforelse
                 </tbody>
             </table>
@@ -171,33 +150,42 @@
     <script>
         const ctx = document.getElementById('financeChart').getContext('2d');
         new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: @json($chartLabels),
                 datasets: [
                     {
-                        label: 'Pemasukan',
+                        label: 'In',
                         data: @json($chartPemasukan),
-                        backgroundColor: 'rgba(16, 185, 129, 0.7)',
-                        borderRadius: 6,
+                        borderColor: '#10b981',
+                        borderWidth: 4,
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                        pointRadius: 0,
                     },
                     {
-                        label: 'Pengeluaran',
+                        label: 'Out',
                         data: @json($chartPengeluaran),
-                        backgroundColor: 'rgba(244, 63, 94, 0.7)',
-                        borderRadius: 6,
+                        borderColor: '#f43f5e',
+                        borderWidth: 4,
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(244, 63, 94, 0.05)',
+                        pointRadius: 0,
                     }
                 ]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
                 scales: {
                     y: {
-                        ticks: {
-                            callback: (value) => 'Rp ' + Intl.NumberFormat('id-ID').format(value)
-                        }
-                    }
+                        grid: { color: 'rgba(255, 255, 255, 0.03)' },
+                        ticks: { font: { size: 10, weight: 'bold' }, color: '#64748b' }
+                    },
+                    x: { grid: { display: false }, ticks: { font: { size: 10, weight: 'bold' }, color: '#64748b' } }
                 }
             }
         });
