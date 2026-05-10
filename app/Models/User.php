@@ -4,7 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -19,13 +18,9 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'username',
-        'nama',
+        'name',
         'email',
         'password',
-        'role',
-        'department_id',
-        'is_active',
     ];
 
     /**
@@ -46,37 +41,8 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    /**
-     * Get the name of the unique identifier for the user.
-     *
-     * @return string
-     */
-    public function getAuthIdentifierName()
-    {
-        return 'username';
-    }
-
-    public function department()
-    {
-        return $this->belongsTo(Department::class);
-    }
-
-    public function transactions()
-    {
-        return $this->hasMany(Transaction::class, 'submitted_by');
-    }
-
-    public function budgets()
-    {
-        return $this->hasMany(Budget::class, 'created_by');
-    }
-
-    public function auditLogs()
-    {
-        return $this->hasMany(AuditLog::class);
     }
 }
