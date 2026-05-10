@@ -3,7 +3,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
         <div>
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Laporan Keuangan</h1>
-            <p class="text-sm text-gray-500 mt-1">Ringkasan keuangan periode {{ \Carbon\Carbon::create()->month($bulan)->translatedFormat('F') }} {{ $tahun }}</p>
+            <p class="text-sm text-gray-500 mt-1">Ringkasan keuangan periode {{ \Carbon\Carbon::createFromDate(null, (int)$bulan, 1)->translatedFormat('F') }} {{ $tahun }}</p>
         </div>
         <div class="flex gap-2">
             <form method="GET" action="{{ route('reports.index') }}" class="flex gap-2 items-center">

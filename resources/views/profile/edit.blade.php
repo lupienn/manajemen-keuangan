@@ -1,44 +1,37 @@
-@extends('layouts.app')
-
-@section('header')
-    <div class="flex justify-between items-center">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profil') }}
-        </h2>
-        <div class="hidden sm:flex items-center space-x-4">
-            <a href="#update-profile" class="px-3 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-dark">
-                Perbarui Profil
-            </a>
-            <a href="#update-password" class="px-3 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-dark">
-                Perbarui Password
-            </a>
-            <a href="#delete-account" class="px-3 py-2 text-sm font-medium text-white bg-danger rounded-lg hover:bg-danger-dark">
-                Hapus Akun
-            </a>
+<x-app-layout>
+    <div class="max-w-3xl mx-auto">
+        <div class="mb-6">
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Profil Saya</h1>
+            <p class="text-sm text-gray-500 mt-1">Kelola informasi akun dan keamanan Anda.</p>
         </div>
-    </div>
-@endsection
 
-@section('content')
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div id="update-profile" class="p-4 sm:p-8 bg-background-alt shadow-xl sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
+        <div class="space-y-6">
+            {{-- Update Profile --}}
+            <div id="update-profile" class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 dark:bg-gray-800 dark:border-gray-700">
+                <h2 class="text-base font-bold text-gray-900 dark:text-white mb-5 flex items-center gap-2">
+                    <x-lucide-user class="w-5 h-5 text-corporate" />
+                    Informasi Profil
+                </h2>
+                @include('profile.partials.update-profile-information-form')
             </div>
 
-            <div id="update-password" class="p-4 sm:p-8 bg-background-alt shadow-xl sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
+            {{-- Update Password --}}
+            <div id="update-password" class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 dark:bg-gray-800 dark:border-gray-700">
+                <h2 class="text-base font-bold text-gray-900 dark:text-white mb-5 flex items-center gap-2">
+                    <x-lucide-lock class="w-5 h-5 text-corporate" />
+                    Perbarui Kata Sandi
+                </h2>
+                @include('profile.partials.update-password-form')
             </div>
 
-            <div id="delete-account" class="p-4 sm:p-8 bg-background-alt shadow-xl sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
+            {{-- Delete Account --}}
+            <div id="delete-account" class="bg-white border border-rose-200 rounded-xl shadow-sm p-6 dark:bg-gray-800 dark:border-rose-900/50">
+                <h2 class="text-base font-bold text-rose-700 dark:text-rose-400 mb-5 flex items-center gap-2">
+                    <x-lucide-trash-2 class="w-5 h-5" />
+                    Hapus Akun
+                </h2>
+                @include('profile.partials.delete-user-form')
             </div>
         </div>
     </div>
-@endsection
+</x-app-layout>

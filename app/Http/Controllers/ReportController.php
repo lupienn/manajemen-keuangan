@@ -11,8 +11,8 @@ class ReportController extends Controller
 {
     public function index(Request $request)
     {
-        $bulan = $request->get('bulan', now()->month);
-        $tahun = $request->get('tahun', now()->year);
+        $bulan = (int) $request->get('bulan', now()->month);
+        $tahun = (int) $request->get('tahun', now()->year);
 
         $pemasukan = Transaction::with('category')
             ->where('jenis', 'pemasukan')
@@ -59,8 +59,8 @@ class ReportController extends Controller
 
     public function exportPdf(Request $request)
     {
-        $bulan = $request->get('bulan', now()->month);
-        $tahun = $request->get('tahun', now()->year);
+        $bulan = (int) $request->get('bulan', now()->month);
+        $tahun = (int) $request->get('tahun', now()->year);
 
         $pemasukan = Transaction::with('category')
             ->where('jenis', 'pemasukan')
@@ -80,7 +80,7 @@ class ReportController extends Controller
         $totalPengeluaran = $pengeluaran->sum('jumlah');
         $saldo            = $totalPemasukan - $totalPengeluaran;
 
-        $namaBulan = \Carbon\Carbon::create()->month($bulan)->translatedFormat('F');
+        $namaBulan = \Carbon\Carbon::createFromDate(null, $bulan, 1)->translatedFormat('F');
 
         $pdf = Pdf::loadView('reports.pdf', compact(
             'bulan', 'tahun', 'namaBulan',
