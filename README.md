@@ -1,22 +1,22 @@
-# 💰 Sistem Manajemen Keuangan
+# Sistem Manajemen Keuangan
 
 Aplikasi web manajemen keuangan berbasis Laravel 12 yang dirancang untuk membantu pengelolaan transaksi, anggaran, dan pelaporan keuangan secara efisien.
 
 ---
 
-## 📋 Tentang Proyek
+## Tentang Proyek
 
 Sistem Manajemen Keuangan ini dibangun sebagai aplikasi internal untuk mencatat dan memantau arus keuangan organisasi. Fitur utama meliputi:
 
 - **Dashboard** — Ringkasan statistik keuangan secara real-time (pemasukan, pengeluaran, saldo).
 - **Manajemen Transaksi** — Pencatatan transaksi pemasukan dan pengeluaran beserta kategori.
 - **Manajemen Anggaran** — Penetapan dan pemantauan anggaran per kategori.
-- **Laporan Keuangan** — Ekspor laporan keuangan ke format PDF.
+- **Laporan Keuangan** — Tampilan laporan keuangan berdasarkan periode.
 - **Autentikasi** — Sistem login berbasis email & password menggunakan Laravel Breeze.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Lapisan        | Teknologi                                      |
 |----------------|------------------------------------------------|
@@ -24,13 +24,12 @@ Sistem Manajemen Keuangan ini dibangun sebagai aplikasi internal untuk mencatat 
 | **Frontend**   | Blade, Tailwind CSS 3, Alpine.js 3, Flowbite   |
 | **Build Tool** | Vite 7                                         |
 | **Database**   | SQLite (default) / MySQL                       |
-| **PDF Export** | barryvdh/laravel-dompdf                        |
 | **Icons**      | Lucide Icons (Blade + JS)                      |
 | **Testing**    | PHPUnit 11, Pest                               |
 
 ---
 
-## 🗂️ Struktur Direktori
+## Struktur Direktori
 
 ```
 ├── app/
@@ -49,7 +48,7 @@ Sistem Manajemen Keuangan ini dibangun sebagai aplikasi internal untuk mencatat 
 │       ├── dashboard.blade.php
 │       ├── transactions/     # index, create, edit
 │       ├── budgets/          # index
-│       └── reports/          # index (+ PDF export)
+│       └── reports/          # index
 └── routes/
     ├── web.php               # Rute utama aplikasi
     └── auth.php              # Rute autentikasi (Breeze)
@@ -57,7 +56,7 @@ Sistem Manajemen Keuangan ini dibangun sebagai aplikasi internal untuk mencatat 
 
 ---
 
-## ⚙️ Instalasi & Setup
+## Instalasi & Setup
 
 ### Prasyarat
 
@@ -92,7 +91,7 @@ Aplikasi akan tersedia di **http://127.0.0.1:8000**.
 
 ---
 
-## 🗄️ Skema Database
+## Skema Database
 
 | Tabel          | Deskripsi                                              |
 |----------------|--------------------------------------------------------|
@@ -103,24 +102,23 @@ Aplikasi akan tersedia di **http://127.0.0.1:8000**.
 
 ---
 
-## 🔗 Rute Utama
+## Rute Utama
 
-| Method   | URI                    | Nama Route          | Keterangan                  |
-|----------|------------------------|---------------------|-----------------------------|
-| `GET`    | `/dashboard`           | `dashboard`         | Halaman utama / statistik   |
-| `GET`    | `/transactions`        | `transactions.index`| Daftar transaksi            |
-| `POST`   | `/transactions`        | `transactions.store`| Tambah transaksi            |
-| `GET`    | `/transactions/create` | `transactions.create`| Form tambah transaksi      |
-| `PUT`    | `/transactions/{id}`   | `transactions.update`| Edit transaksi             |
-| `DELETE` | `/transactions/{id}`   | `transactions.destroy`| Hapus transaksi           |
-| `GET`    | `/anggaran`            | `budgets.index`     | Daftar & kelola anggaran    |
-| `GET`    | `/laporan`             | `reports.index`     | Halaman laporan keuangan    |
-| `GET`    | `/laporan/pdf`         | `reports.pdf`       | Export laporan ke PDF       |
-| `GET`    | `/profile`             | `profile.edit`      | Halaman profil pengguna     |
+| Method   | URI                    | Nama Route            | Keterangan                  |
+|----------|------------------------|-----------------------|-----------------------------|
+| `GET`    | `/dashboard`           | `dashboard`           | Halaman utama / statistik   |
+| `GET`    | `/transactions`        | `transactions.index`  | Daftar transaksi            |
+| `POST`   | `/transactions`        | `transactions.store`  | Tambah transaksi            |
+| `GET`    | `/transactions/create` | `transactions.create` | Form tambah transaksi       |
+| `PUT`    | `/transactions/{id}`   | `transactions.update` | Edit transaksi              |
+| `DELETE` | `/transactions/{id}`   | `transactions.destroy`| Hapus transaksi             |
+| `GET`    | `/anggaran`            | `budgets.index`       | Daftar & kelola anggaran    |
+| `GET`    | `/laporan`             | `reports.index`       | Halaman laporan keuangan    |
+| `GET`    | `/profile`             | `profile.edit`        | Halaman profil pengguna     |
 
 ---
 
-## 🧪 Menjalankan Tes
+## Menjalankan Tes
 
 ```bash
 composer test
@@ -128,7 +126,7 @@ composer test
 
 ---
 
-## 📦 Perintah Artisan Berguna
+## Perintah Artisan Berguna
 
 ```bash
 # Jalankan migrasi ulang dengan data seeder
@@ -137,11 +135,4 @@ php artisan migrate:fresh --seed
 # Bersihkan cache konfigurasi & view
 php artisan config:clear
 php artisan view:clear
-
-# Generate PDF (via route)
-# Akses /laporan/pdf di browser setelah login
 ```
-
----
-
-
