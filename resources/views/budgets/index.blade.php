@@ -6,18 +6,20 @@
         </div>
 
         {{-- Month filter --}}
-        <form method="GET" action="{{ route('budgets.index') }}" class="flex gap-2 items-center">
-            <select name="bulan" class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-corporate focus:border-corporate">
+        <form method="GET" action="{{ route('budgets.index') }}" class="flex gap-2 items-center bg-slate-900 p-2 rounded-xl border border-slate-800">
+            <select name="bulan" class="text-xs border-0 bg-slate-800 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 font-bold">
                 @for($m = 1; $m <= 12; $m++)
                     <option value="{{ $m }}" {{ $bulan == $m ? 'selected' : '' }}>{{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}</option>
                 @endfor
             </select>
-            <select name="tahun" class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-corporate focus:border-corporate">
+            <select name="tahun" class="text-xs border-0 bg-slate-800 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 font-bold">
                 @for($y = now()->year; $y >= now()->year - 2; $y--)
                     <option value="{{ $y }}" {{ $tahun == $y ? 'selected' : '' }}>{{ $y }}</option>
                 @endfor
             </select>
-            <button type="submit" class="px-3 py-2 bg-corporate text-white text-sm rounded-lg hover:bg-blue-800 transition">Tampilkan</button>
+            <button type="submit" class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition">
+                <x-lucide-search class="w-4 h-4" />
+            </button>
         </form>
     </div>
 
@@ -26,67 +28,67 @@
         <div class="lg:col-span-2 space-y-4">
             @forelse($budgets as $budget)
             @php $persen = $budget->persentase; @endphp
-            <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm dark:bg-gray-800 dark:border-gray-700">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
                 <div class="flex items-start justify-between mb-3">
                     <div>
-                        <h3 class="font-semibold text-gray-900 dark:text-white">{{ $budget->nama }}</h3>
-                        <span class="text-xs text-gray-400">{{ $budget->category?->nama ?? 'Tanpa Kategori' }}</span>
+                        <h3 class="font-black text-white tracking-tight">{{ $budget->nama }}</h3>
+                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-500">{{ $budget->category?->nama ?? 'Tanpa Kategori' }}</span>
                     </div>
-                    <div class="flex gap-1.5">
-                        <span class="text-sm font-bold {{ $persen >= 90 ? 'text-rose-600' : ($persen >= 70 ? 'text-amber-600' : 'text-emerald-600') }}">
+                    <div class="flex gap-1.5 items-center">
+                        <span class="text-sm font-black {{ $persen >= 90 ? 'text-rose-400' : ($persen >= 70 ? 'text-amber-400' : 'text-emerald-400') }}">
                             {{ $persen }}%
                         </span>
                         <form method="POST" action="{{ route('budgets.destroy', $budget) }}"
                               onsubmit="return confirm('Hapus anggaran ini?')">
                             @csrf @method('DELETE')
-                            <button type="submit" class="p-1 text-gray-400 hover:text-rose-600 transition" title="Hapus">
+                            <button type="submit" class="p-1.5 text-slate-600 hover:text-rose-400 transition" title="Hapus">
                                 <x-lucide-trash-2 class="w-4 h-4" />
                             </button>
                         </form>
                     </div>
                 </div>
 
-                <div class="w-full bg-gray-100 rounded-full h-3 dark:bg-gray-700 mb-2">
-                    <div class="h-3 rounded-full transition-all duration-500 {{ $persen >= 90 ? 'bg-rose-500' : ($persen >= 70 ? 'bg-amber-400' : 'bg-emerald-500') }}"
+                <div class="w-full bg-slate-800 rounded-full h-2 mb-4 overflow-hidden">
+                    <div class="h-2 rounded-full transition-all duration-1000 {{ $persen >= 90 ? 'bg-rose-500' : ($persen >= 70 ? 'bg-amber-500' : 'bg-emerald-500') }}"
                          style="width: {{ $persen }}%"></div>
                 </div>
 
-                <div class="flex justify-between text-sm text-gray-500">
-                    <span>Terpakai: <span class="font-medium text-gray-900 dark:text-white">Rp {{ number_format($budget->realisasi, 0, ',', '.') }}</span></span>
-                    <span>Anggaran: <span class="font-medium text-gray-900 dark:text-white">Rp {{ number_format($budget->jumlah_anggaran, 0, ',', '.') }}</span></span>
+                <div class="flex justify-between text-[10px] font-black uppercase tracking-widest text-slate-500">
+                    <span>Terpakai: <span class="text-white">Rp {{ number_format($budget->realisasi, 0, ',', '.') }}</span></span>
+                    <span>Anggaran: <span class="text-white">Rp {{ number_format($budget->jumlah_anggaran, 0, ',', '.') }}</span></span>
                 </div>
 
                 @if($persen >= 90)
-                    <div class="mt-3 flex items-center gap-2 text-xs text-rose-600 bg-rose-50 border border-rose-100 rounded-lg px-3 py-2">
+                    <div class="mt-4 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-xl px-4 py-2">
                         <x-lucide-alert-circle class="w-4 h-4 flex-shrink-0" />
-                        Peringatan! Anggaran hampir habis. Sisa: Rp {{ number_format($budget->jumlah_anggaran - $budget->realisasi, 0, ',', '.') }}
+                        Anggaran hampir habis. Sisa: Rp {{ number_format($budget->jumlah_anggaran - $budget->realisasi, 0, ',', '.') }}
                     </div>
                 @endif
             </div>
             @empty
-            <div class="bg-white border border-gray-200 rounded-xl p-12 text-center text-gray-400 dark:bg-gray-800 dark:border-gray-700">
-                <x-lucide-pie-chart class="w-14 h-14 mx-auto mb-3 opacity-25" />
-                <p class="font-medium">Belum ada anggaran untuk periode ini.</p>
-                <p class="text-sm mt-1">Buat anggaran baru menggunakan form di samping.</p>
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-16 text-center shadow-xl">
+                <x-lucide-pie-chart class="w-16 h-16 mx-auto mb-6 text-slate-800" />
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-500">Belum ada anggaran untuk periode ini.</p>
+                <p class="text-[10px] font-bold text-blue-400 uppercase mt-2 tracking-widest">Buat anggaran baru menggunakan form di samping.</p>
             </div>
             @endforelse
         </div>
 
         {{-- Add Budget Form --}}
-        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm dark:bg-gray-800 dark:border-gray-700 h-fit">
-            <h3 class="font-bold text-gray-900 dark:text-white mb-4">Tambah Anggaran Baru</h3>
-            <form method="POST" action="{{ route('budgets.store') }}" class="space-y-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl h-fit">
+            <h3 class="text-lg font-black text-white tracking-tight mb-6">Tambah Anggaran Baru</h3>
+            <form method="POST" action="{{ route('budgets.store') }}" class="space-y-6">
                 @csrf
                 <div>
-                    <label class="block text-xs font-medium text-gray-600 mb-1">Nama Anggaran *</label>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Nama Anggaran *</label>
                     <input type="text" name="nama" value="{{ old('nama') }}" required
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-corporate focus:border-corporate"
+                        class="w-full border-0 bg-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500 placeholder-slate-600 font-bold"
                         placeholder="Contoh: Anggaran Gaji Mei">
-                    @error('nama') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
+                    @error('nama') <p class="text-[10px] font-bold text-rose-500 mt-2 uppercase tracking-widest">{{ $message }}</p> @enderror
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-600 mb-1">Kategori</label>
-                    <select name="category_id" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-corporate focus:border-corporate">
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Kategori</label>
+                    <select name="category_id" class="w-full border-0 bg-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500 font-bold">
                         <option value="">— Pilih Kategori —</option>
                         @foreach($categories as $cat)
                             <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>{{ $cat->nama }}</option>
@@ -94,19 +96,19 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-600 mb-1">Jumlah Anggaran (Rp) *</label>
+                    <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Jumlah Anggaran (Rp) *</label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-3 flex items-center text-gray-400 text-sm">Rp</span>
+                        <span class="absolute inset-y-0 left-4 flex items-center text-slate-500 text-sm font-bold">Rp</span>
                         <input type="number" name="jumlah_anggaran" value="{{ old('jumlah_anggaran') }}" required min="1"
-                            class="w-full border border-gray-300 rounded-lg pl-9 pr-3 py-2 text-sm focus:ring-2 focus:ring-corporate focus:border-corporate"
+                            class="w-full border-0 bg-slate-800 rounded-xl pl-11 pr-4 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500 placeholder-slate-600 font-bold"
                             placeholder="0">
                     </div>
-                    @error('jumlah_anggaran') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
+                    @error('jumlah_anggaran') <p class="text-[10px] font-bold text-rose-500 mt-2 uppercase tracking-widest">{{ $message }}</p> @enderror
                 </div>
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-medium text-gray-600 mb-1">Bulan *</label>
-                        <select name="bulan" class="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:ring-2 focus:ring-corporate focus:border-corporate">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Bulan *</label>
+                        <select name="bulan" class="w-full border-0 bg-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500 font-bold">
                             @for($m = 1; $m <= 12; $m++)
                                 <option value="{{ $m }}" {{ (old('bulan', $bulan) == $m) ? 'selected' : '' }}>
                                     {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}
@@ -115,15 +117,15 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-600 mb-1">Tahun *</label>
-                        <select name="tahun" class="w-full border border-gray-300 rounded-lg px-2 py-2 text-sm focus:ring-2 focus:ring-corporate focus:border-corporate">
+                        <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Tahun *</label>
+                        <select name="tahun" class="w-full border-0 bg-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500 font-bold">
                             @for($y = now()->year; $y >= now()->year - 2; $y--)
                                 <option value="{{ $y }}" {{ (old('tahun', $tahun) == $y) ? 'selected' : '' }}>{{ $y }}</option>
                             @endfor
                         </select>
                     </div>
                 </div>
-                <button type="submit" class="w-full py-2.5 bg-corporate text-white font-semibold rounded-lg hover:bg-blue-800 transition text-sm shadow">
+                <button type="submit" class="w-full py-4 bg-blue-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-blue-500 transition shadow-xl shadow-blue-900/20">
                     Simpan Anggaran
                 </button>
             </form>

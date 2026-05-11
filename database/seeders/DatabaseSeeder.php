@@ -15,8 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         // Create admin user
         $admin = User::updateOrCreate(
-            ['email' => 'admin@keuangan.test'],
-            ['name' => 'Administrator Keuangan', 'password' => Hash::make('password')]
+            ['email' => 'adminkeuangan@gmail.com'],
+            [
+                'name' => 'Administrator Keuangan',
+                'username' => 'admin',
+                'password' => Hash::make('password')
+            ]
         );
 
         // Seed categories
@@ -48,13 +52,13 @@ class DatabaseSeeder extends Seeder
 
         // Seed sample transactions for current month
         $sampleTransactions = [
-            ['jenis' => 'pemasukan',  'category_id' => $catPenjualan->id,  'deskripsi' => 'Pembayaran Klien PT. Maju Jaya',  'jumlah' => 15000000, 'tanggal' => $now->copy()->subDays(2)],
-            ['jenis' => 'pemasukan',  'category_id' => $catJasa->id,       'deskripsi' => 'Jasa Konsultasi Keuangan',        'jumlah' => 5000000,  'tanggal' => $now->copy()->subDays(5)],
-            ['jenis' => 'pemasukan',  'category_id' => $catPenjualan->id,  'deskripsi' => 'Penjualan Produk Batch Q2',       'jumlah' => 8500000,  'tanggal' => $now->copy()->subDays(7)],
-            ['jenis' => 'pengeluaran','category_id' => $catGaji->id,       'deskripsi' => 'Penggajian Karyawan Mei 2026',    'jumlah' => 12000000, 'tanggal' => $now->copy()->subDays(1)],
+            ['jenis' => 'pemasukan',  'category_id' => $catPenjualan->id,  'deskripsi' => 'Pembayaran Klien PT. One Seulanga Nusantara',  'jumlah' => 15000000, 'tanggal' => $now->copy()->subDays(2)],
+            ['jenis' => 'pemasukan',  'category_id' => $catJasa->id,       'deskripsi' => 'Jasa Pemasangan IKR (Instalasi Kabel Rumah)',        'jumlah' => 5000000,  'tanggal' => $now->copy()->subDays(5)],
+            ['jenis' => 'pemasukan',  'category_id' => $catPenjualan->id,  'deskripsi' => 'Langganan Iconnet Mei 2026',       'jumlah' => 8500000,  'tanggal' => $now->copy()->subDays(7)],
+            ['jenis' => 'pengeluaran','category_id' => $catGaji->id,       'deskripsi' => 'Gaji & Tunjangan Karyawan Mei 2026',    'jumlah' => 12000000, 'tanggal' => $now->copy()->subDays(1)],
             ['jenis' => 'pengeluaran','category_id' => $catOpsional->id,   'deskripsi' => 'Sewa Gedung Kantor',              'jumlah' => 4500000,  'tanggal' => $now->copy()->subDays(3)],
-            ['jenis' => 'pengeluaran','category_id' => $catPemasaran->id,  'deskripsi' => 'Iklan Digital Google Ads',        'jumlah' => 2000000,  'tanggal' => $now->copy()->subDays(6)],
-            ['jenis' => 'pengeluaran','category_id' => $catOpsional->id,   'deskripsi' => 'Tagihan Listrik & Internet',      'jumlah' => 1200000,  'tanggal' => $now->copy()->subDays(8)],
+            ['jenis' => 'pengeluaran','category_id' => $catPemasaran->id,  'deskripsi' => 'Iklan Digital dan Poster Instagram',        'jumlah' => 2000000,  'tanggal' => $now->copy()->subDays(6)],
+            ['jenis' => 'pengeluaran','category_id' => $catOpsional->id,   'deskripsi' => 'Tagihan Pajak Mei 2026',      'jumlah' => 1200000,  'tanggal' => $now->copy()->subDays(8)],
         ];
 
         if (Transaction::count() === 0) {

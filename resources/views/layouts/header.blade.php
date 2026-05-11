@@ -1,4 +1,4 @@
-<nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+<nav class="fixed top-0 z-50 w-full bg-slate-900 border-b border-slate-800">
   <div class="px-3 py-3 lg:px-5 lg:pl-3">
     <div class="flex items-center justify-between">
       <div class="flex items-center justify-start rtl:justify-end">
@@ -21,23 +21,23 @@
                 </div>
               </button>
             </div>
-            <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+            <div class="z-50 hidden my-4 text-base list-none bg-slate-900 divide-y divide-slate-800 rounded-xl shadow-2xl border border-slate-800" id="dropdown-user">
               <div class="px-4 py-3" role="none">
-                <p class="text-sm text-gray-900 dark:text-white" role="none">
+                <p class="text-sm font-black text-white" role="none">
                   {{ Auth::user()->name }}
                 </p>
-                <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                <p class="text-[10px] font-bold text-slate-500 truncate uppercase tracking-tighter" role="none">
                   {{ Auth::user()->email }}
                 </p>
               </div>
               <ul class="py-1" role="none">
                 <li>
-                  <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Profile</a>
+                  <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-xs font-bold text-slate-400 hover:bg-slate-800 hover:text-white transition" role="menuitem">Profil</a>
                 </li>
                 <li>
                   <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</button>
+                    <button type="submit" class="w-full text-left block px-4 py-2 text-xs font-bold text-rose-400 hover:bg-rose-500/10 transition" role="menuitem">Sign out</button>
                   </form>
                 </li>
               </ul>

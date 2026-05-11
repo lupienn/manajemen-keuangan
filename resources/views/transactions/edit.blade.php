@@ -1,58 +1,58 @@
 <x-app-layout>
     <div class="max-w-2xl mx-auto">
         <div class="mb-6 flex items-center gap-3">
-            <a href="{{ route('transactions.index') }}" class="p-2 text-gray-500 hover:text-corporate hover:bg-gray-100 rounded-lg transition">
+            <a href="{{ route('transactions.index') }}" class="p-2 text-slate-500 hover:text-blue-400 hover:bg-slate-800 rounded-xl transition">
                 <x-lucide-arrow-left class="w-5 h-5" />
             </a>
             <div>
-                <h1 class="text-xl font-bold text-gray-900 dark:text-white">Edit Transaksi</h1>
-                <p class="text-sm text-gray-500">Perbarui detail transaksi di bawah ini.</p>
+                <h1 class="text-2xl font-black text-white tracking-tight">Edit Transaksi</h1>
+                <p class="text-sm text-slate-400 mt-1 font-medium">Perbarui detail transaksi di bawah ini.</p>
             </div>
         </div>
 
-        <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 dark:bg-gray-800 dark:border-gray-700">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-8">
             <form method="POST" action="{{ route('transactions.update', $transaction) }}" class="space-y-5">
                 @csrf @method('PUT')
 
                 {{-- Jenis indicator --}}
-                <div class="flex items-center gap-3 p-3 rounded-lg {{ $transaction->jenis === 'pemasukan' ? 'bg-emerald-50 border border-emerald-200' : 'bg-rose-50 border border-rose-200' }}">
+                <div class="flex items-center gap-3 p-4 rounded-2xl {{ $transaction->jenis === 'pemasukan' ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-rose-500/10 border border-rose-500/20' }}">
                     @if($transaction->jenis === 'pemasukan')
-                        <x-lucide-trending-up class="w-5 h-5 text-emerald-600" />
-                        <span class="text-sm font-semibold text-emerald-700">Transaksi Pemasukan</span>
+                        <x-lucide-trending-up class="w-5 h-5 text-emerald-400" />
+                        <span class="text-xs font-black uppercase tracking-widest text-emerald-400">Transaksi Pemasukan</span>
                     @else
-                        <x-lucide-trending-down class="w-5 h-5 text-rose-600" />
-                        <span class="text-sm font-semibold text-rose-700">Transaksi Pengeluaran</span>
+                        <x-lucide-trending-down class="w-5 h-5 text-rose-400" />
+                        <span class="text-xs font-black uppercase tracking-widest text-rose-400">Transaksi Pengeluaran</span>
                     @endif
                 </div>
 
                 <div>
-                    <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-1.5">Deskripsi <span class="text-rose-500">*</span></label>
+                    <label for="deskripsi" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Deskripsi <span class="text-rose-500">*</span></label>
                     <input type="text" name="deskripsi" id="deskripsi" value="{{ old('deskripsi', $transaction->deskripsi) }}" required
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-corporate focus:border-corporate">
-                    @error('deskripsi') <p class="mt-1 text-xs text-rose-600">{{ $message }}</p> @enderror
+                        class="w-full border-0 bg-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500 placeholder-slate-600 font-bold">
+                    @error('deskripsi') <p class="mt-2 text-[10px] font-bold text-rose-500 uppercase tracking-widest">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
-                    <label for="jumlah" class="block text-sm font-medium text-gray-700 mb-1.5">Nominal (Rp) <span class="text-rose-500">*</span></label>
+                    <label for="jumlah" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Nominal (Rp) <span class="text-rose-500">*</span></label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-3 flex items-center text-gray-500 text-sm">Rp</span>
+                        <span class="absolute inset-y-0 left-4 flex items-center text-slate-500 text-sm font-bold">Rp</span>
                         <input type="number" name="jumlah" id="jumlah" value="{{ old('jumlah', $transaction->jumlah) }}" required min="1"
-                            class="w-full border border-gray-300 rounded-lg pl-10 pr-3 py-2.5 text-sm focus:ring-2 focus:ring-corporate focus:border-corporate">
+                            class="w-full border-0 bg-slate-800 rounded-xl pl-11 pr-4 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500 placeholder-slate-600 font-bold">
                     </div>
-                    @error('jumlah') <p class="mt-1 text-xs text-rose-600">{{ $message }}</p> @enderror
+                    @error('jumlah') <p class="mt-2 text-[10px] font-bold text-rose-500 uppercase tracking-widest">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
-                    <label for="tanggal" class="block text-sm font-medium text-gray-700 mb-1.5">Tanggal <span class="text-rose-500">*</span></label>
+                    <label for="tanggal" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Tanggal <span class="text-rose-500">*</span></label>
                     <input type="date" name="tanggal" id="tanggal" value="{{ old('tanggal', $transaction->tanggal->format('Y-m-d')) }}" required
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-corporate focus:border-corporate">
-                    @error('tanggal') <p class="mt-1 text-xs text-rose-600">{{ $message }}</p> @enderror
+                        class="w-full border-0 bg-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500 font-bold">
+                    @error('tanggal') <p class="mt-2 text-[10px] font-bold text-rose-500 uppercase tracking-widest">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
-                    <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1.5">Kategori</label>
+                    <label for="category_id" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Kategori</label>
                     <select name="category_id" id="category_id"
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-corporate focus:border-corporate">
+                        class="w-full border-0 bg-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500 font-bold">
                         <option value="">— Pilih Kategori —</option>
                         @foreach($categories as $cat)
                             <option value="{{ $cat->id }}" {{ old('category_id', $transaction->category_id) == $cat->id ? 'selected' : '' }}>{{ $cat->nama }}</option>
@@ -61,17 +61,17 @@
                 </div>
 
                 <div>
-                    <label for="catatan" class="block text-sm font-medium text-gray-700 mb-1.5">Catatan (Opsional)</label>
+                    <label for="catatan" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Catatan (Opsional)</label>
                     <textarea name="catatan" id="catatan" rows="3"
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-corporate focus:border-corporate">{{ old('catatan', $transaction->catatan) }}</textarea>
+                        class="w-full border-0 bg-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500 placeholder-slate-600 font-bold">{{ old('catatan', $transaction->catatan) }}</textarea>
                 </div>
 
-                <div class="flex gap-3 pt-2">
-                    <button type="submit" class="flex-1 py-2.5 px-5 bg-corporate hover:bg-blue-800 text-white font-semibold rounded-lg transition shadow">
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" class="flex-1 py-4 px-6 bg-blue-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-blue-500 transition shadow-xl shadow-blue-900/20">
                         Perbarui Transaksi
                     </button>
                     <a href="{{ route('transactions.index') }}"
-                       class="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition text-sm font-medium text-center">
+                       class="px-6 py-4 border border-slate-800 text-slate-400 rounded-xl hover:bg-slate-800 transition text-[10px] font-black uppercase tracking-widest text-center">
                         Batal
                     </a>
                 </div>

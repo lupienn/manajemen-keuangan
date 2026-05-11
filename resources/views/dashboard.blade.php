@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between mb-8">
         <div>
             <h1 class="text-3xl font-black text-white tracking-tight">Dashboard Keuangan</h1>
-            <p class="text-sm text-slate-400 mt-1 font-medium">Selamat datang, <span class="text-blue-400 font-bold">{{ Auth::user()->name }}</span>. Berikut ringkasan bulan ini.</p>
+            <p class="text-sm text-slate-400 mt-1 font-medium">Selamat datang, <span class="text-blue-400 font-bold">{{ Auth::user()->name }}</span> (<span class="text-slate-500">@</span>{{ Auth::user()->username }}). Berikut ringkasan bulan ini.</p>
         </div>
         <a href="{{ route('transactions.create') }}"
            class="inline-flex items-center px-6 py-3 bg-blue-600 text-white text-sm font-black uppercase tracking-widest rounded-xl hover:bg-blue-500 transition shadow-lg shadow-blue-900/20">
@@ -97,18 +97,18 @@
         </div>
     </div>
 
-    {{-- Activity Table - SOFT WHITE THEME --}}
-    <div class="bg-slate-50 border border-slate-200 rounded-3xl shadow-2xl overflow-hidden">
-        <div class="p-8 border-b border-slate-200 flex items-center justify-between bg-white/50">
+    {{-- Activity Table - DARK THEME --}}
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden">
+        <div class="p-8 border-b border-slate-800 flex items-center justify-between bg-slate-900/50">
             <div>
-                <h3 class="text-lg font-black text-slate-900 tracking-tight">Riwayat Aktivitas</h3>
+                <h3 class="text-lg font-black text-white tracking-tight">Riwayat Aktivitas</h3>
                 <p class="text-xs text-slate-500 font-medium">Transaksi terbaru di dalam sistem</p>
             </div>
             <a href="{{ route('transactions.index') }}" class="text-xs font-black text-blue-600 uppercase tracking-widest hover:text-blue-800 transition px-4 py-2 bg-blue-50 rounded-xl">Lihat Semua</a>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-sm text-left">
-                <thead class="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-100/50 border-b border-slate-200">
+                <thead class="text-[10px] font-black uppercase tracking-widest text-slate-500 bg-slate-950/50 border-b border-slate-800">
                     <tr>
                         <th class="px-8 py-5">Identitas Waktu</th>
                         <th class="px-8 py-5">Deskripsi Transaksi</th>
@@ -116,22 +116,22 @@
                         <th class="px-8 py-5 text-right">Nominal</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 bg-white">
+                <tbody class="divide-y divide-slate-800 bg-slate-900">
                     @forelse($transaksiTerakhir as $trx)
-                    <tr class="hover:bg-blue-50 transition-colors">
+                    <tr class="hover:bg-slate-800/50 transition-colors">
                         <td class="px-8 py-5">
                             <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-500">
+                                <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-[10px] font-black text-slate-400">
                                     {{ $trx->tanggal->format('d') }}
                                 </div>
-                                <span class="text-xs font-bold text-slate-500">{{ $trx->tanggal->translatedFormat('M Y') }}</span>
+                                <span class="text-xs font-bold text-slate-400">{{ $trx->tanggal->translatedFormat('M Y') }}</span>
                             </div>
                         </td>
                         <td class="px-8 py-5">
-                            <span class="text-sm font-bold text-slate-800">{{ $trx->deskripsi }}</span>
+                            <span class="text-sm font-bold text-white">{{ $trx->deskripsi }}</span>
                         </td>
                         <td class="px-8 py-5">
-                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 border border-slate-100 px-3 py-1 rounded-lg">{{ $trx->category?->nama ?? 'Umum' }}</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-500 bg-slate-800 border border-slate-700 px-3 py-1 rounded-lg">{{ $trx->category?->nama ?? 'Umum' }}</span>
                         </td>
                         <td class="px-8 py-5 text-right font-black {{ $trx->jenis === 'pemasukan' ? 'text-emerald-600' : 'text-rose-600' }}">
                             {{ $trx->jenis === 'pemasukan' ? '+' : '-' }} Rp {{ number_format($trx->jumlah, 0, ',', '.') }}
