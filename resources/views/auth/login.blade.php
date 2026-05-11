@@ -9,7 +9,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+<body class="bg-slate-950 min-h-screen text-slate-200">
     <section class="flex flex-col md:flex-row min-h-screen">
         <!-- Branding Section -->
         <div class="hidden md:flex md:w-1/2 bg-corporate items-center justify-center p-12 text-white relative overflow-hidden">
@@ -28,7 +28,7 @@
         </div>
 
         <!-- Form Section -->
-        <div class="w-full md:w-1/2 flex items-center justify-center p-8 sm:p-12">
+        <div class="w-full md:w-1/2 flex items-center justify-center p-8 sm:p-12 bg-slate-950">
             <div class="w-full max-w-md">
                 <div class="md:hidden text-center mb-8">
                     <x-lucide-wallet class="w-12 h-12 mx-auto mb-2 text-corporate" />
@@ -36,8 +36,8 @@
                 </div>
 
                 <div class="mb-10 text-center md:text-left">
-                    <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Selamat Datang</h2>
-                    <p class="text-gray-600 dark:text-gray-400 mt-2">Silakan masuk ke akun Anda untuk melanjutkan.</p>
+                    <h2 class="text-4xl font-black text-white tracking-tight">Selamat Datang</h2>
+                    <p class="text-slate-400 mt-2 font-medium">Silakan masuk ke akun Anda untuk melanjutkan.</p>
                 </div>
 
                 <!-- Session Status -->
@@ -48,13 +48,13 @@
 
                     <!-- Username or Email Address -->
                     <div>
-                        <label for="login" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username atau Email</label>
+                        <label for="login" class="block mb-2 text-[10px] font-black uppercase tracking-widest text-slate-500">Username atau Email</label>
                         <div class="relative">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <x-lucide-user class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                                <x-lucide-user class="w-5 h-5 text-slate-500" />
                             </div>
                             <input type="text" name="login" id="login" value="{{ old('login') }}" required autofocus
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-corporate focus:border-corporate block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                class="bg-slate-900 border border-slate-800 text-white text-sm rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full pl-12 p-3.5 placeholder-slate-600 font-bold" 
                                 placeholder="Username atau email">
                         </div>
                         <x-input-error :messages="$errors->get('login')" class="mt-2" />
@@ -62,13 +62,13 @@
 
                     <!-- Password -->
                     <div>
-                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kata Sandi</label>
+                        <label for="password" class="block mb-2 text-[10px] font-black uppercase tracking-widest text-slate-500">Kata Sandi</label>
                         <div class="relative">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <x-lucide-lock class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                                <x-lucide-lock class="w-5 h-5 text-slate-500" />
                             </div>
                             <input type="password" name="password" id="password" required autocomplete="current-password"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-corporate focus:border-corporate block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                class="bg-slate-900 border border-slate-800 text-white text-sm rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 block w-full pl-12 p-3.5 placeholder-slate-600 font-bold" 
                                 placeholder="••••••••">
                         </div>
                         <x-input-error :messages="$errors->get('password')" class="mt-2" />
@@ -77,18 +77,18 @@
                     <div class="flex items-center justify-between">
                         <div class="flex items-start">
                             <div class="flex items-center h-5">
-                                <input id="remember_me" name="remember" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800">
+                                <input id="remember_me" name="remember" type="checkbox" class="w-4 h-4 border-slate-800 rounded bg-slate-900 text-blue-600 focus:ring-blue-500">
                             </div>
-                            <div class="ml-3 text-sm">
-                                <label for="remember_me" class="text-gray-500 dark:text-gray-300">Ingat saya</label>
+                            <div class="ml-3 text-xs">
+                                <label for="remember_me" class="text-slate-400 font-bold">Ingat saya</label>
                             </div>
                         </div>
                         @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="text-sm font-medium text-corporate hover:underline dark:text-blue-500">Lupa sandi?</a>
+                            <a href="{{ route('password.request') }}" class="text-xs font-black uppercase tracking-widest text-blue-400 hover:text-blue-300">Lupa sandi?</a>
                         @endif
                     </div>
 
-                    <button type="submit" class="w-full text-white bg-corporate hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-all duration-200 shadow-lg">
+                    <button type="submit" class="w-full text-white bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-black uppercase tracking-widest rounded-xl text-xs px-5 py-4 text-center transition-all duration-200 shadow-2xl shadow-blue-900/40">
                         Masuk Sekarang
                     </button>
 
