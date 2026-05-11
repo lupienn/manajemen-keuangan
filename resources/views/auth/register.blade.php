@@ -35,6 +35,20 @@
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
 
+                <!-- Username -->
+                <div>
+                    <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                            <x-lucide-user-check class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                        </div>
+                        <input type="text" name="username" id="username" value="{{ old('username') }}" required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-corporate focus:border-corporate block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" 
+                            placeholder="johndoe123">
+                    </div>
+                    <x-input-error :messages="$errors->get('username')" class="mt-2" />
+                </div>
+
                 <!-- Email Address -->
                 <div>
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email Perusahaan</label>

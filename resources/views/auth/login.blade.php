@@ -46,18 +46,18 @@
                 <form method="POST" action="{{ route('login') }}" class="space-y-6">
                     @csrf
 
-                    <!-- Email Address -->
+                    <!-- Username or Email Address -->
                     <div>
-                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email Perusahaan</label>
+                        <label for="login" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username atau Email</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                                <x-lucide-mail class="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                                <x-lucide-user class="w-5 h-5 text-gray-500 dark:text-gray-400" />
                             </div>
-                            <input type="email" name="email" id="email" value="{{ old('email') }}" required autofocus
+                            <input type="text" name="login" id="login" value="{{ old('login') }}" required autofocus
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-corporate focus:border-corporate block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                placeholder="name@company.com">
+                                placeholder="Username atau email">
                         </div>
-                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('login')" class="mt-2" />
                     </div>
 
                     <!-- Password -->

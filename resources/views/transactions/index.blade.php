@@ -22,19 +22,19 @@
     </div>
 
     {{-- Filters --}}
-    <div class="bg-white border border-gray-200 rounded-xl p-4 mb-5 dark:bg-gray-800 dark:border-gray-700">
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 mb-5 shadow-xl">
         <form method="GET" action="{{ route('transactions.index') }}" class="flex flex-wrap gap-3 items-end">
             <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">Jenis</label>
-                <select name="jenis" class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-corporate focus:border-corporate">
+                <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Jenis</label>
+                <select name="jenis" class="text-xs border-0 bg-slate-800 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 font-bold">
                     <option value="">Semua Jenis</option>
                     <option value="pemasukan" {{ request('jenis') === 'pemasukan' ? 'selected' : '' }}>Pemasukan</option>
                     <option value="pengeluaran" {{ request('jenis') === 'pengeluaran' ? 'selected' : '' }}>Pengeluaran</option>
                 </select>
             </div>
             <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">Kategori</label>
-                <select name="category_id" class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-corporate focus:border-corporate">
+                <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Kategori</label>
+                <select name="category_id" class="text-xs border-0 bg-slate-800 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 font-bold">
                     <option value="">Semua Kategori</option>
                     @foreach($categories as $cat)
                         <option value="{{ $cat->id }}" {{ request('category_id') == $cat->id ? 'selected' : '' }}>{{ $cat->nama }}</option>
@@ -42,8 +42,8 @@
                 </select>
             </div>
             <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">Bulan</label>
-                <select name="bulan" class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-corporate focus:border-corporate">
+                <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Bulan</label>
+                <select name="bulan" class="text-xs border-0 bg-slate-800 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 font-bold">
                     <option value="">Semua Bulan</option>
                     @for($m = 1; $m <= 12; $m++)
                         <option value="{{ $m }}" {{ request('bulan') == $m ? 'selected' : '' }}>
@@ -53,27 +53,27 @@
                 </select>
             </div>
             <div>
-                <label class="block text-xs font-medium text-gray-600 mb-1">Tahun</label>
-                <select name="tahun" class="text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-corporate focus:border-corporate">
+                <label class="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Tahun</label>
+                <select name="tahun" class="text-xs border-0 bg-slate-800 rounded-lg px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 font-bold">
                     @for($y = now()->year; $y >= now()->year - 3; $y--)
                         <option value="{{ $y }}" {{ request('tahun', now()->year) == $y ? 'selected' : '' }}>{{ $y }}</option>
                     @endfor
                 </select>
             </div>
-            <button type="submit" class="px-4 py-2 bg-corporate text-white text-sm font-semibold rounded-lg hover:bg-blue-800 transition">
+            <button type="submit" class="px-5 py-2.5 bg-blue-600 text-white text-xs font-black uppercase tracking-widest rounded-lg hover:bg-blue-500 transition shadow-lg shadow-blue-900/20">
                 Filter
             </button>
             @if(request()->hasAny(['jenis','category_id','bulan','tahun']))
-                <a href="{{ route('transactions.index') }}" class="px-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100 transition">Reset</a>
+                <a href="{{ route('transactions.index') }}" class="px-5 py-2.5 text-xs font-black uppercase tracking-widest text-slate-400 border border-slate-800 rounded-lg hover:bg-slate-800 transition">Reset</a>
             @endif
         </form>
     </div>
 
     {{-- Table --}}
-    <div class="bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-xl shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs uppercase bg-gray-50 text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+            <table class="w-full text-sm text-left text-slate-400">
+                <thead class="text-xs uppercase bg-slate-950/50 text-slate-500 border-b border-slate-800">
                     <tr>
                         <th class="px-6 py-3">Tanggal</th>
                         <th class="px-6 py-3">Deskripsi</th>
@@ -83,38 +83,38 @@
                         <th class="px-6 py-3 text-center">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+                <tbody class="divide-y divide-slate-800">
                     @forelse($transactions as $trx)
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                        <td class="px-6 py-4 whitespace-nowrap text-gray-700 dark:text-gray-300 text-xs">
+                    <tr class="hover:bg-slate-800/30 transition">
+                        <td class="px-6 py-4 whitespace-nowrap text-slate-400 text-xs">
                             {{ $trx->tanggal->translatedFormat('d M Y') }}
                         </td>
-                        <td class="px-6 py-4 text-gray-900 dark:text-white font-medium">{{ $trx->deskripsi }}</td>
+                        <td class="px-6 py-4 text-white font-medium">{{ $trx->deskripsi }}</td>
                         <td class="px-6 py-4">
-                            <span class="px-2 py-1 rounded-full text-xs text-gray-600 bg-gray-100">
+                            <span class="px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest text-slate-500 bg-slate-800 border border-slate-700">
                                 {{ $trx->category?->nama ?? '—' }}
                             </span>
                         </td>
                         <td class="px-6 py-4">
                             @if($trx->jenis === 'pemasukan')
-                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700">Pemasukan</span>
+                                <span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Pemasukan</span>
                             @else
-                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-700">Pengeluaran</span>
+                                <span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest bg-rose-500/10 text-rose-400 border border-rose-500/20">Pengeluaran</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 text-right font-bold {{ $trx->jenis === 'pemasukan' ? 'text-emerald-600' : 'text-rose-600' }}">
+                        <td class="px-6 py-4 text-right font-black {{ $trx->jenis === 'pemasukan' ? 'text-emerald-400' : 'text-rose-400' }}">
                             {{ $trx->jenis === 'pemasukan' ? '+' : '-' }} Rp {{ number_format($trx->jumlah, 0, ',', '.') }}
                         </td>
                         <td class="px-6 py-4 text-center">
                             <div class="flex items-center justify-center gap-2">
                                 <a href="{{ route('transactions.edit', $trx) }}" 
-                                   class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Edit">
+                                   class="p-1.5 text-blue-400 hover:bg-blue-500/10 rounded-lg transition" title="Edit">
                                     <x-lucide-pencil class="w-4 h-4" />
                                 </a>
                                 <form method="POST" action="{{ route('transactions.destroy', $trx) }}"
                                       onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Hapus">
+                                    <button type="submit" class="p-1.5 text-rose-400 hover:bg-rose-500/10 rounded-lg transition" title="Hapus">
                                         <x-lucide-trash-2 class="w-4 h-4" />
                                     </button>
                                 </form>
